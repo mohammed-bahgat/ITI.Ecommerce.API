@@ -12,8 +12,8 @@
 
         //Navigation property
 
-        public ShoppingCart ShoppingCart { get; set; }
-        public Customer customer { get; set; }
-        public Payment Payment { get; set; }
+        public virtual ShoppingCart ShoppingCart { get; set; }
+        public virtual Customer customer { get; set; }
+        public virtual Payment Payment { get; set; }
     }
 }
