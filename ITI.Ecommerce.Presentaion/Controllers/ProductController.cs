@@ -2,11 +2,10 @@
 using DTOs;
 using ITI.Ecommerce.Services;
 using ITI.Ecommerce.Models;
- 
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ITI.Ecommerce.Presenation;
 
-namespace ITI.Ecommerce.Presenation.Controllersss
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace ITI.Ecommerce.Presentaion.Controllers
 {
     public class ProductController : Controller
     {
@@ -32,7 +31,7 @@ namespace ITI.Ecommerce.Presenation.Controllersss
 
 
             List<ProductDto> li = new List<ProductDto>();
-          
+
             foreach (var Prod in Proudicts)
             {
                 var ProductImages = await _img.GetByProductId(Prod.ID);
@@ -73,12 +72,12 @@ namespace ITI.Ecommerce.Presenation.Controllersss
         [HttpGet]
         public async Task<ProductDto> GetProductByID(int id)
         {
-            
+
             var Prod = await _pro.GetById(id);
             List<ProductImageDto> ListImage = new List<ProductImageDto>();
 
             var ProductImages = await _img.GetByProductId(Prod.ID);
-           
+
             foreach (var img in ProductImages)
             {
 
@@ -113,9 +112,9 @@ namespace ITI.Ecommerce.Presenation.Controllersss
             }
             else
             {
-              return null;
+                return null;
             }
-           
+
 
         }
         [HttpGet]
@@ -160,7 +159,7 @@ namespace ITI.Ecommerce.Presenation.Controllersss
             }
             return li;
         }
-        
+
         [HttpGet]
         public async Task<List<ProductImageDto>> GetProductImages(int id)
         {
@@ -257,7 +256,7 @@ namespace ITI.Ecommerce.Presenation.Controllersss
             return li;
         }
 
-         
+
     }
-     
+
 }
