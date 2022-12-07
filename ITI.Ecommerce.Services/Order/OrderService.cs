@@ -28,21 +28,7 @@ namespace ITI.Ecommerce.Services
             _context.SaveChanges();
         }
 
-        //public void Delete(OrderDto orderDto)
-        //{
-        //    Order order = new Order()
-        //    {
-        //        ID = orderDto.ID,
-        //        CustomerId = orderDto.CustomerId,
-        //        PaymentId = orderDto.PaymentId,
-        //        OrderDate = orderDto.OrderDate,
-        //        IsDeleted = true,
-        //        ShoppingCartId = orderDto.ShoppingCartId
-        //    };
-        //    _context.Update(order);
-        //    _context.SaveChanges();
-
-        //}
+     
 
         public void Delete(int id)
         {
@@ -109,6 +95,30 @@ namespace ITI.Ecommerce.Services
         //    _context.Update(order);
         //    _context.SaveChanges();
         //}
+        public async Task<IEnumerable<OrderDto>> GetByCustomerId(string CustomerId)
+        {
+            List<OrderDto> orderDtoList = new List<OrderDto>();
+
+            var orders = await _context.Orders.Where(o => o.IsDeleted == false && o.CustomerId == CustomerId).ToListAsync();
+
+            foreach (var order in orders)
+            {
+                OrderDto orderDto = new OrderDto()
+                {
+                    ID = order.ID,
+                    CustomerId = order.CustomerId,
+                    IsDeleted=order.IsDeleted,
+                    OrderDate=order.OrderDate,
+                    PaymentId=order.PaymentId,
+                    ShoppingCartId = order.ShoppingCartId,
+
+                };
+                orderDtoList.Add(orderDto);
+
+            }
+
+            return orderDtoList;
+        }
         public void Update(OrderDto orderDto)
         {
             var order = _context.Orders.FirstOrDefault(o => o.ID == orderDto.ID);
@@ -118,5 +128,7 @@ namespace ITI.Ecommerce.Services
             order.ShoppingCartId = orderDto.ShoppingCartId;
             _context.SaveChanges();
         }
+
+
     }
 }

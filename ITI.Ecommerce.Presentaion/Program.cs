@@ -44,6 +44,7 @@ builder.Services.AddTransient<IProductImageService, ProductImageService>();
 
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 var app = builder.Build();

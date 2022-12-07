@@ -6,7 +6,7 @@ namespace ITI.Ecommerce.Services
     {
         Task add(OrderDto orderDto);
         Task<IEnumerable<OrderDto>> GetAll();
-
+        Task<IEnumerable<OrderDto>> GetByCustomerId(string CustomerId);
         Task<OrderDto> GetById(int id); 
          //void Delete(OrderDto orderDto);
          void Delete(int id);
