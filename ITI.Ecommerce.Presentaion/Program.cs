@@ -1,4 +1,5 @@
 using ITI.Ecommerce.Models;
+using ITI.Ecommerce.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 var app = builder.Build();
