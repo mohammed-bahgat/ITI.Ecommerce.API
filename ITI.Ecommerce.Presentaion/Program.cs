@@ -13,11 +13,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<Customer, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//Configure the  the controller with newtonsoftJsason packages.
+builder.Services.AddControllers().AddNewtonsoftJson(op =>
+{
+    op.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+    op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -28,15 +36,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
 });
 
-{
-    options.UseLazyLoadingProxies().UseSqlServer(@"Data Source=DESKTOP-7M0US3B\SQLEXPRESS01;initial catalog = ITI.EcommerceDB; integrated security = true;");
-});
-//Configure the  the controller with newtonsoftJsason packages.
-builder.Services.AddControllers().AddNewtonsoftJson(op =>
-{
-    op.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-    op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-});
+
+
+
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
