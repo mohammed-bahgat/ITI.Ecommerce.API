@@ -7,7 +7,7 @@
         public bool IsAllowed { get; set; }
 
         //Navigation property
-        public Order Order { get; set; }
+        public  virtual Order Order { get; set; }
 
     }
 }

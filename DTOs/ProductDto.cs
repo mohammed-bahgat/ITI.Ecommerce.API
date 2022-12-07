@@ -44,8 +44,8 @@ namespace DTOs
         public float TotalPrice { get; set; }
         public bool IsDeleted { get; set; }
         /// public ICollection<Microsoft.AspNetCore.Http.IFormFile> Images { get; set; }
-        public ICollection<ProductImage> productImageList { get; set; }
-        public ICollection<ShoppingCartDto> ShoppingCartList { get; set; }
+        public ICollection<ProductImageDto> productImageList { get; set; }
+       // public ICollection<ShoppingCartDto> ShoppingCartList { get; set; }
     }
 }
 

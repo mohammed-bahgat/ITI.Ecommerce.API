@@ -9,12 +9,17 @@ namespace ITI.Ecommerce.Services
 {
     public interface IProductService
     {
-        Task add(ProductDto productDto);
+         
         Task<IEnumerable<ProductDto>> GetAll();
         Task<IEnumerable<CategoryDto>> GetAllCat();
         Task<ProductDto> GetById(int id);
         Task<IEnumerable<ProductDto>> GetByCategoryId(int id);
-        void Delete(int product);
-        void Update(ProductDto productDto);
+
+        Task<IEnumerable<ProductDto>> GetByPrice(float id);
+        Task<IEnumerable<ProductDto>> FiletrProductBYname(string name);
+        Task<IEnumerable<ProductDto>> FiletrProductBYnameDes();
+        
+
+
     }
 }

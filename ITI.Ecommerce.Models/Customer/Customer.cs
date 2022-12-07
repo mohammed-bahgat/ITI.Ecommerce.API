@@ -24,7 +24,7 @@ namespace ITI.Ecommerce.Models
 
         //Navigation property
 
-        public ICollection<Order> orderList { get; set; }
+        public virtual ICollection<Order> orderList { get; set; }
 
     }
 }
