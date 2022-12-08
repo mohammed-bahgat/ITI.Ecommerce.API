@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ITI.Ecommerce.Presentaion.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductController : Controller
     {
         public IProductService _pro;
@@ -171,7 +174,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-
+        [HttpGet]
         public async Task<List<ProductDto>> FilterPrice(float Price)
         {
             var product = await _pro.GetByPrice(Price);
@@ -213,7 +216,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-
+        [HttpGet]
         public async Task<List<ProductDto>> FilterByName(string name)
         {
             var product = await _pro.FiletrProductBYname(name);
