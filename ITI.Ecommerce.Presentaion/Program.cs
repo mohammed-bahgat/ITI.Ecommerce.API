@@ -44,7 +44,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
-
+builder.Services.AddTransient<ICategoryServie, CategoryService>();
 
 
 builder.Services.AddEndpointsApiExplorer();
