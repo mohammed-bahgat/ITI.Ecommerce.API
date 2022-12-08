@@ -42,6 +42,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 
 
@@ -61,9 +62,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-app.MapControllerRoute("main", "{controller=Home}/{action=Index}");
+//app.MapControllerRoute("main", "{controller=Home}/{action=Index}");
 app.UseAuthorization();
 
- 
 
 app.Run();
