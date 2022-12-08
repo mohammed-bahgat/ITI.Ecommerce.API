@@ -26,7 +26,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             con = _con;
 
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<List<ProductDto>> GetAll()
         {
 
@@ -72,7 +72,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
-        [HttpGet]
+        [HttpGet("GetProductByID")]
         public async Task<ProductDto> GetProductByID(int id)
         {
 
@@ -120,7 +120,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
 
 
         }
-        [HttpGet]
+        [HttpGet("GetProductByCats")]
         public async Task<List<ProductDto>> GetProductByCats(int id)
         {
             var Proudicts = await _pro.GetByCategoryId(id);
@@ -163,7 +163,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
-        [HttpGet]
+        [HttpGet("GetProductImages")]
         public async Task<List<ProductImageDto>> GetProductImages(int id)
         {
             var ProImage = await _img.GetByProductId(id);
@@ -174,7 +174,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-        [HttpGet]
+        [HttpGet("FilterPrice")]
         public async Task<List<ProductDto>> FilterPrice(float Price)
         {
             var product = await _pro.GetByPrice(Price);
@@ -216,7 +216,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-        [HttpGet]
+        [HttpGet("FilterByName")]
         public async Task<List<ProductDto>> FilterByName(string name)
         {
             var product = await _pro.FiletrProductBYname(name);
