@@ -45,6 +45,7 @@ builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
 builder.Services.AddTransient<ICategoryServie, CategoryService>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
 
 
 builder.Services.AddEndpointsApiExplorer();
