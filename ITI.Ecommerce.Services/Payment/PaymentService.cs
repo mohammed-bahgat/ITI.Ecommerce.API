@@ -69,14 +69,20 @@ namespace ITI.Ecommerce.Services
 
         public void Update(PaymentDto paymentDto)
         {
-            Payment payment = new Payment()
-            {
-                ID = paymentDto.ID,
-                PaymentType = paymentDto.PaymentType,
-                IsAllowed = paymentDto.IsAllowed
-            };
+            var pay = _context.Payments.FirstOrDefault(p => p.ID == paymentDto.ID);
 
-            _context.Update(payment);
+            pay.IsAllowed = paymentDto.IsAllowed;
+            pay.PaymentType = paymentDto.PaymentType;
+
+
+            //Payment payment = new Payment()
+            //{
+            //    ID = paymentDto.ID,
+            //    PaymentType = paymentDto.PaymentType,
+            //    IsAllowed = paymentDto.IsAllowed
+            //};
+
+           
             _context.SaveChanges();
         }
     }

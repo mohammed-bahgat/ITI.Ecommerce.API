@@ -68,19 +68,27 @@ namespace ITI.Ecommerce.Services
         public async Task<IEnumerable<CategoryDto>> GetAll()
         {
             List<CategoryDto> categoryDtosList = new List<CategoryDto>();
-            var categories = await _context.Categories.Where(c => c.IsDeleted == false).ToListAsync();
-            foreach (var category in categories)
+            var categories = await _context.Categories.OrderByDescending(p=>p.NameEN).Where(c => c.IsDeleted == false).ToListAsync();
+            if (categories == null)
             {
-                CategoryDto categoryDto = new CategoryDto()
-                {
-                    ID = category.ID,
-                    NameAR = category.NameAR,
-                    NameEN = category.NameEN,
-                    IsDeleted = category.IsDeleted,
-                };
-                categoryDtosList.Add(categoryDto);
+                throw new Exception("this category not found");
             }
-            return categoryDtosList;
+            else {
+
+                foreach (var category in categories)
+                {
+                    CategoryDto categoryDto = new CategoryDto()
+                    {
+                        ID = category.ID,
+                        NameAR = category.NameAR,
+                        NameEN = category.NameEN,
+                        IsDeleted = category.IsDeleted,
+                    };
+                    categoryDtosList.Add(categoryDto);
+                }
+                return categoryDtosList;
+            }
+                 
         }
 
         public async Task<CategoryDto> GetById(int id)
@@ -97,7 +105,8 @@ namespace ITI.Ecommerce.Services
                     ID = category.ID,
                     NameAR = category.NameAR,
                     NameEN = category.NameEN,
-                    IsDeleted = category.IsDeleted,
+                    IsDeleted = category.IsDeleted
+, 
                 };
                 return categoryDto;
             }
@@ -120,6 +129,34 @@ namespace ITI.Ecommerce.Services
 
             //_context.Update(category);
             _context.SaveChanges();
+        }
+
+        public async Task<List<CategoryDto>> GetByName(string name)
+        {
+            var category = await _context.Categories.Where(p=>p.NameEN.Contains(name)).ToListAsync();
+
+            List<CategoryDto> cat = new List<CategoryDto>();
+            if (category == null)
+            {
+                throw new Exception("this category not found");
+            }
+            else
+            {
+                foreach (var catDto in category)
+                {
+                    CategoryDto categoryDto = new CategoryDto()
+                    {
+                        ID = catDto.ID,
+                        NameAR = catDto.NameAR,
+                        NameEN = catDto.NameEN,
+                        IsDeleted = catDto.IsDeleted
+
+                    };
+
+                    cat.Add(categoryDto);
+                }
+                return cat;
+            }
         }
 
         //public async Task Update(CategoryDto categoryDto)
