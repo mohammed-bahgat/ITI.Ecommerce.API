@@ -21,5 +21,7 @@ namespace ITI.Ecommerce.Services
 
         Task<List<string>> GetCategoryBrand(int cat);
 
+        Task<IEnumerable<ProductDto>> GetProductByCategoryAndPranch(int c ,string Brand);
+
     }
 }

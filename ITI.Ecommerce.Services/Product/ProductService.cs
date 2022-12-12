@@ -250,5 +250,37 @@ namespace ITI.Ecommerce.Services
                 return li;
 
         }
+
+        public async Task<IEnumerable<ProductDto>> GetProductByCategoryAndPranch(int c, string Brand)
+        {
+            List<ProductDto> productDtoList = new List<ProductDto>();
+
+            var products = await _context.Products.Where(p => p.IsDeleted == false && p.CategoryID ==c && p.Brand==Brand).ToListAsync();
+
+            foreach (var product in products)
+            {
+                ProductDto productDto = new ProductDto()
+                {
+                    ID = product.ID,
+                    NameAR = product.NameAR,
+                    NameEN = product.NameEN,
+                    Description = product.Description,
+                    CategoryID = product.CategoryID,
+                    UnitPrice = product.UnitPrice,
+                    Quantity = product.Quantity,
+                    Discount = product.Discount,
+                    TotalPrice = product.TotalPrice,
+                    Brand = product.Brand,
+                    IsDeleted = product.IsDeleted,
+
+
+
+                };
+                productDtoList.Add(productDto);
+
+            }
+
+            return productDtoList;
+        }
     }
 }

@@ -273,7 +273,51 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
+        [HttpGet("GetProductByCatAndBrand")]
+        public async Task<List<ProductDto>> GetProductByCatAndBrand( int Category,string Brand)
+        {
 
+            var Proudicts = await _pro.GetProductByCategoryAndPranch(Category, Brand);
+
+
+            List<ProductDto> li = new List<ProductDto>();
+
+            foreach (var Prod in Proudicts)
+            {
+                var ProductImages = await _img.GetByProductId(Prod.ID);
+                List<ProductImageDto> ListImage = new List<ProductImageDto>();
+                foreach (var im in ProductImages)
+                {
+                    ProductImageDto pro = new ProductImageDto()
+                    {
+                        ID = im.ID,
+                        Path = im.Path,
+                        ProductID = im.ProductID,
+                    };
+
+                    ListImage.Add(pro);
+                }
+
+                ProductDto pr = new ProductDto()
+                {
+                    ID = Prod.ID,
+                    NameAR = Prod.NameAR,
+                    NameEN = Prod.NameEN,
+                    TotalPrice = Prod.TotalPrice,
+                    Quantity = Prod.Quantity,
+                    Brand = Prod.Brand,
+                    CategoryID = Prod.CategoryID,
+                    Description = Prod.Description,
+                    UnitPrice = Prod.UnitPrice,
+                    Discount = Prod.Discount,
+                    productImageList = ListImage
+
+                };
+
+                li.Add(pr);
+            }
+            return li;
+        }
 
     }
 
