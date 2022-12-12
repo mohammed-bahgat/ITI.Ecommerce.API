@@ -230,6 +230,25 @@ namespace ITI.Ecommerce.Services
 
         }
 
-       
+        public async Task<List<string>> GetCategoryBrand(int Cat)
+        {
+            List<string> li = new List<string>();
+
+
+            var Products = await _context.Products.Where(p => p.CategoryID == Cat && p.IsDeleted == false).Distinct().ToListAsync();
+
+            if (Products != null)
+            {
+                foreach (var item in Products)
+                {
+                    li.Add(item.Brand);
+                }
+
+                 
+            }
+            
+                return li;
+
+        }
     }
 }

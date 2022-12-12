@@ -260,6 +260,21 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         }
 
 
+        [HttpGet("GetCategoryBrand")]
+        public async Task<List<string>> GetCategoryBrand(int Cat)
+        {
+            var product = await _pro.GetCategoryBrand(Cat);
+            List<string> li = new List<string>();
+
+            foreach(var it in product)
+            {
+                li.Add(it);
+            }
+            return li;
+        }
+
+
+
     }
 
 }
