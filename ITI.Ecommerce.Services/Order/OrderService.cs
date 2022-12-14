@@ -33,9 +33,12 @@ namespace ITI.Ecommerce.Services
         public void Delete(int id)
         {
             var OrderDto = _context.Orders.FirstOrDefault(o => o.ID == id);
-            OrderDto.IsDeleted = true;
-            _context.Update(OrderDto);
-            _context.SaveChanges();
+            if (OrderDto != null)
+            {
+                OrderDto.IsDeleted = true;
+                _context.Update(OrderDto);
+                _context.SaveChanges();
+            }
 
         }
 
@@ -122,11 +125,15 @@ namespace ITI.Ecommerce.Services
         public void Update(OrderDto orderDto)
         {
             var order = _context.Orders.FirstOrDefault(o => o.ID == orderDto.ID);
-            order.CustomerId = orderDto.CustomerId;
-            order.PaymentId = orderDto.PaymentId;
-            order.OrderDate = orderDto.OrderDate;
-            order.ShoppingCartId = orderDto.ShoppingCartId;
-            _context.SaveChanges();
+
+            if (order != null)
+            {
+                order.CustomerId = orderDto.CustomerId;
+                order.PaymentId = orderDto.PaymentId;
+                order.OrderDate = orderDto.OrderDate;
+                order.ShoppingCartId = orderDto.ShoppingCartId;
+                _context.SaveChanges();
+            }
         }
 
 
