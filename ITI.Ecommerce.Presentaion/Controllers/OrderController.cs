@@ -32,5 +32,20 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             await _orderService.add(dto);
            
         }
+
+        [HttpPost("Delete")]
+
+        public void  Delete(int id)
+        {
+             _orderService.Delete(id);
+
+        }
+        [HttpPost("Update")]
+
+        public  void Update(OrderDto dto)
+        {
+             _orderService.Update(dto);
+
+        }
     }
 }

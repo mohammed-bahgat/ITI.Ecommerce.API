@@ -54,6 +54,7 @@ builder.Services.AddTransient<ICategoryServie, CategoryService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddTransient<IPaymentService, PaymentService>();
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
 
 
