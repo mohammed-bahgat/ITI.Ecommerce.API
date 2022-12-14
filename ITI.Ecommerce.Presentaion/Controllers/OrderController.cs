@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITI.Ecommerce.Presentaion.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
     {

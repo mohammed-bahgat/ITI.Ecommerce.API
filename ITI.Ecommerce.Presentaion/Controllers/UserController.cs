@@ -61,7 +61,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         {
             
                 var user = await UserManager.FindByEmailAsync(model.Email);
-
+            
             if (user == null)
             {
                 return NotFound("Not Found User");
@@ -74,7 +74,9 @@ namespace ITI.Ecommerce.Presentaion.Controllers
                     var loggedUser = new LoggedInModel()
                     {
                         Id=user.Id,
-                        UserName=user.UserName
+                        UserName=user.UserName,
+                        Eamil=user.Email,
+                        Address=user.Address
                     };
                     return Ok(loggedUser);
                 }
@@ -86,5 +88,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
 
           
         }
+
+
     }
 }
