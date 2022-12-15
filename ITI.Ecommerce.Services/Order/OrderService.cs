@@ -12,7 +12,7 @@ namespace ITI.Ecommerce.Services
            _context = context;
 
         }
-        public async Task add(OrderDto orderDto)
+        public async Task<int> add(OrderDto orderDto)
         {
             Order order = new Order()
             {
@@ -26,6 +26,7 @@ namespace ITI.Ecommerce.Services
 
             await _context.Orders.AddAsync(order);
             _context.SaveChanges();
+            return order.ID;
         }
 
      

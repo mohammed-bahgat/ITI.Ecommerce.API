@@ -18,27 +18,18 @@ namespace ITI.Ecommerce.Services
         {
 
 
-            List<Product> li = new List<Product>();
-
-            //add Product in ProductList in Shopping Cart
             List<Product> products = new List<Product>();
 
 
             ShoppingCart shoppingCart = new ShoppingCart()
             {
-                //ProductId = shoppingCartDto.ProductId,
-                //UnitPrice = shoppingCartDto.UnitPrice,
-                //Quantity = shoppingCartDto.Quantity,
-                //Discount = shoppingCartDto.Discount,
-                //Total = shoppingCartDto.Total,
-                //NameAR = shoppingCartDto.NameAR,
-                //NameEN = shoppingCartDto.NameEN,
+              
                 IsDeleted = false,
             };
 
             foreach (var productDto in shoppingCartDto.productList)
             {
-                Product Prod = new Product()
+                Product product = new Product()
                 {
                     NameAR = productDto.NameAR,
                     NameEN = productDto.NameEN,
@@ -48,43 +39,17 @@ namespace ITI.Ecommerce.Services
                     UnitPrice = productDto.UnitPrice,
                     Discount = productDto.Discount,
                     TotalPrice = productDto.TotalPrice,
-
                     Brand=productDto.Brand,
                     IsDeleted = productDto.IsDeleted,
                 };
-                li.Add(Prod);
-
-
-                    Brand = productDto.Brand,
-                    IsDeleted = false,
-                };
+                
                 products.Add(product);
 
             }
-            //Order order = new Order()
-            //{
-            //    OrderDate = shoppingCartDto.order.OrderDate,
-            //    ID = shoppingCartDto.order.ID
-            //};
-            ShoppingCart shoppingCart = new ShoppingCart()
-            {
-                ProductId = shoppingCartDto.ProductId,
-                UnitPrice = shoppingCartDto.UnitPrice,
-                Quantity = shoppingCartDto.Quantity,
-                Discount = shoppingCartDto.Discount,
-                
-                Total = shoppingCartDto.Total,
-                NameAR = shoppingCartDto.NameAR,
-                NameEN = shoppingCartDto.NameEN,
-                IsDeleted = false,
-                //Order= order,
-                productList = li
-                
 
-            };
+            shoppingCart.productList = products;
 
-            
-            await _context.ShoppingCarts.AddAsync(shoppingCart);
+             await _context.ShoppingCarts.AddAsync(shoppingCart);
             _context.SaveChanges();
             return shoppingCart.ID;
         }

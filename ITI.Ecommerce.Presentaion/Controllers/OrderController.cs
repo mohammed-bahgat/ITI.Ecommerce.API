@@ -26,11 +26,22 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return Ok(Orders);
         }
 
-        [HttpPost]
-        public async Task Add(OrderDto dto)
+        [HttpGet]
+        public async Task<IActionResult> GetOrderByID(int id)
         {
-            await _orderService.add(dto);
-           
+            var Order = await _orderService.GetById(id);
+            if (Order == null)
+            {
+                return NotFound($"we not found your Id : {id}");
+            }
+            return Ok(Order);
+        }
+
+        [HttpPost]
+        public async Task<int> Add(OrderDto dto)
+        {
+           var OrderId= await _orderService.add(dto);
+            return OrderId;
         }
 
         [HttpPost("Delete")]

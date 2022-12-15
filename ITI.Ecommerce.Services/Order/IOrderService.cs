@@ -4,7 +4,7 @@ namespace ITI.Ecommerce.Services
 {
     public interface IOrderService
     {
-        Task add(OrderDto orderDto);
+        Task<int> add(OrderDto orderDto);
         Task<IEnumerable<OrderDto>> GetAll();
         Task<IEnumerable<OrderDto>> GetByCustomerId(string CustomerId);
         Task<OrderDto> GetById(int id); 
