@@ -9,7 +9,7 @@
         public string ImagePath { get; set; }
 
         //Navigation property
-        public ICollection<Product> ProductList { get; set; }
+        public virtual ICollection<Product> ProductList { get; set; }
 
     }
 }
