@@ -26,7 +26,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return Ok(Orders);
         }
 
-        [HttpGet]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetOrderByID(int id)
         {
             var Order = await _orderService.GetById(id);

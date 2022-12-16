@@ -64,7 +64,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
 
             return Ok(li);
        }
-        [HttpGet("GatByID")]
+        [HttpGet("GetByID")]
         public async Task<IActionResult> GatByID(int id)
         {
 
@@ -107,7 +107,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             else
             return Ok(null);
         }
-        [HttpGet("GatByName")]
+        [HttpGet("GetByName")]
         public async Task<IActionResult> GatByName(string name)
         {
             var Categories = await _Cat.GetByName(name);
