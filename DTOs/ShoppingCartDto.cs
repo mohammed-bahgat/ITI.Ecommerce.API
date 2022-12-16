@@ -14,6 +14,7 @@
         public bool IsDeleted { get; set; }
 
         public ICollection<ProductDto> productList { get; set; }
+        public OrderDto order { get; set; }
 
 
     }

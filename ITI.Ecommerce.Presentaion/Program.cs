@@ -16,7 +16,9 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+  // options.UseSqlServer(@"Data Source=DESKTOP-7M0US3B\SQLEXPRESS01;initial catalog = ITI.EcommerceDB; integrated security = true;"));
+
 builder.Services.AddIdentity<Customer, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -42,6 +44,14 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
+
+
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
+
+
+builder.Services.AddTransient<ICategoryServie, CategoryService>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
 
 

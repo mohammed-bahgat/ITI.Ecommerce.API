@@ -26,7 +26,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             con = _con;
 
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<List<ProductDto>> GetAll()
         {
 
@@ -72,7 +72,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
-        [HttpGet]
+        [HttpGet("GetProductByID")]
         public async Task<ProductDto> GetProductByID(int id)
         {
 
@@ -120,7 +120,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
 
 
         }
-        [HttpGet]
+        [HttpGet("GetProductByCats")]
         public async Task<List<ProductDto>> GetProductByCats(int id)
         {
             var Proudicts = await _pro.GetByCategoryId(id);
@@ -163,7 +163,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
-        [HttpGet]
+        [HttpGet("GetProductImages")]
         public async Task<List<ProductImageDto>> GetProductImages(int id)
         {
             var ProImage = await _img.GetByProductId(id);
@@ -174,7 +174,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-        [HttpGet]
+        [HttpGet("FilterPrice")]
         public async Task<List<ProductDto>> FilterPrice(float Price)
         {
             var product = await _pro.GetByPrice(Price);
@@ -216,7 +216,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             }
             return li;
         }
-        [HttpGet]
+        [HttpGet("FilterByName")]
         public async Task<List<ProductDto>> FilterByName(string name)
         {
             var product = await _pro.FiletrProductBYname(name);
@@ -259,6 +259,65 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return li;
         }
 
+
+        [HttpGet("GetCategoryBrand")]
+        public async Task<List<string>> GetCategoryBrand(int Cat)
+        {
+            var product = await _pro.GetCategoryBrand(Cat);
+            List<string> li = new List<string>();
+
+            foreach(var it in product)
+            {
+                li.Add(it);
+            }
+            return li;
+        }
+
+        [HttpGet("GetProductByCatAndBrand")]
+        public async Task<List<ProductDto>> GetProductByCatAndBrand( int Category,string Brand)
+        {
+
+            var Proudicts = await _pro.GetProductByCategoryAndPranch(Category, Brand);
+
+
+            List<ProductDto> li = new List<ProductDto>();
+
+            foreach (var Prod in Proudicts)
+            {
+                var ProductImages = await _img.GetByProductId(Prod.ID);
+                List<ProductImageDto> ListImage = new List<ProductImageDto>();
+                foreach (var im in ProductImages)
+                {
+                    ProductImageDto pro = new ProductImageDto()
+                    {
+                        ID = im.ID,
+                        Path = im.Path,
+                        ProductID = im.ProductID,
+                    };
+
+                    ListImage.Add(pro);
+                }
+
+                ProductDto pr = new ProductDto()
+                {
+                    ID = Prod.ID,
+                    NameAR = Prod.NameAR,
+                    NameEN = Prod.NameEN,
+                    TotalPrice = Prod.TotalPrice,
+                    Quantity = Prod.Quantity,
+                    Brand = Prod.Brand,
+                    CategoryID = Prod.CategoryID,
+                    Description = Prod.Description,
+                    UnitPrice = Prod.UnitPrice,
+                    Discount = Prod.Discount,
+                    productImageList = ListImage
+
+                };
+
+                li.Add(pr);
+            }
+            return li;
+        }
 
     }
 

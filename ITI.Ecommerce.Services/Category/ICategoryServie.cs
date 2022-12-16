@@ -7,6 +7,7 @@ namespace ITI.Ecommerce.Services
         Task add(CategoryDto categoryDto);
         Task<IEnumerable<CategoryDto>> GetAll();
         Task<CategoryDto> GetById(int id);
+        Task<List<CategoryDto>> GetByName(string name);
         void Delete(CategoryDto categoryDto);
         void CDelete(int id);
         //Category CUpdate(int id);
