@@ -13,8 +13,10 @@ namespace DTOs
         public int PaymentId { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsDeleted { get; set; }
-        public int ShoppingCartId { get; set; }
 
-        
+        public string Status { get; set; }
+        public ICollection<ProductDto> ProductList { get; set; }
+
+
     }
 }

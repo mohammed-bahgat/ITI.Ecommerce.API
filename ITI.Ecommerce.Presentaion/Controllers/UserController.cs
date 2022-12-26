@@ -12,16 +12,16 @@ namespace ITI.Ecommerce.Presentaion.Controllers
     {
         UserManager<Customer> UserManager;
         SignInManager<Customer> SignInManager;
-        RoleManager<IdentityRole> RoleManager;
+       
 
         public UserController(UserManager<Customer> _UserManager,
-            SignInManager<Customer> _SignInManager,
-            RoleManager<IdentityRole> _roleManager
+            SignInManager<Customer> _SignInManager
+            
         )
          {
             UserManager = _UserManager;
             SignInManager = _SignInManager;
-            RoleManager = _roleManager; 
+            
            
         }
 

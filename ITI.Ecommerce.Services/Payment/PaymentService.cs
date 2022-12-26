@@ -12,7 +12,7 @@ namespace ITI.Ecommerce.Services
         {
             _context = context;
         }
-        public async Task add(PaymentDto paymentDto)
+        public async Task<int> add(PaymentDto paymentDto)
         {
             Payment payment = new Payment()
             {
@@ -22,6 +22,7 @@ namespace ITI.Ecommerce.Services
             };
             await _context.Payments.AddAsync(payment);
             _context.SaveChanges();
+            return payment.ID;
         }
 
         //public void Delete(PaymentDto paymentDto)

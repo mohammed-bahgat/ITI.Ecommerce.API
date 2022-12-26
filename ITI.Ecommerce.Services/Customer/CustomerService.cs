@@ -29,7 +29,7 @@ namespace ITI.Ecommerce.Services
             Customer customer = new Customer()
             {
                
-                IsDeleted = customerDto.IsDeleted,
+                //IsDeleted = customerDto.IsDeleted,
                 UserName = customerDto.FullName,
                 Address =   customerDto.Address,
                 MobileNumber = customerDto.MobileNumber ,
@@ -71,7 +71,7 @@ namespace ITI.Ecommerce.Services
                 {
                     ID = customer.Id,
                    
-                    IsDeleted = customer.IsDeleted,
+                    //IsDeleted = customer.IsDeleted,
                     FullName = customer.UserName,
                     Address = customer.Address,
                     MobileNumber = customer.MobileNumber,
@@ -96,7 +96,7 @@ namespace ITI.Ecommerce.Services
                 {
                     ID = customer.Id,
                    
-                    IsDeleted = customer.IsDeleted,
+                    //IsDeleted = customer.IsDeleted,
                     FullName = customer.UserName,
                     Address = customer.Address,
                     MobileNumber = customer.MobileNumber,
@@ -113,7 +113,7 @@ namespace ITI.Ecommerce.Services
             {
                 Id = customerDto.ID,
                
-                IsDeleted = customerDto.IsDeleted,
+                //IsDeleted = customerDto.IsDeleted,
                 UserName = customerDto.FullName,
                 Address = customerDto.Address,
                 MobileNumber = customerDto.MobileNumber,

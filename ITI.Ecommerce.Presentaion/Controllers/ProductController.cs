@@ -12,312 +12,209 @@ namespace ITI.Ecommerce.Presentaion.Controllers
     [ApiController]
     public class ProductController : Controller
     {
-        public IProductService _pro;
-        public IProductImageService _img;
-        public IConfiguration con;
+        public IProductService _productService;
+      
 
 
 
-        public ProductController(IProductService pro, IProductImageService img, IConfiguration _con)
+        public ProductController(IProductService productService)
         {
 
-            _pro = pro;
-            _img = img;
-            con = _con;
+            _productService = productService;
+            
+           
 
         }
         [HttpGet("GetAll")]
         public async Task<List<ProductDto>> GetAll()
         {
 
-            var Proudicts = await _pro.GetAll();
+            var ProductList = await _productService.GetAll();
 
 
-            List<ProductDto> li = new List<ProductDto>();
-
-            foreach (var Prod in Proudicts)
-            {
-                var ProductImages = await _img.GetByProductId(Prod.ID);
-                List<ProductImageDto> ListImage = new List<ProductImageDto>();
-                foreach (var im in ProductImages)
-                {
-                    ProductImageDto pro = new ProductImageDto()
-                    {
-                        ID = im.ID,
-                        Path = im.Path,
-                        ProductID = im.ProductID,
-                    };
-
-                    ListImage.Add(pro);
-                }
-
-                ProductDto pr = new ProductDto()
-                {
-                    ID = Prod.ID,
-                    NameAR = Prod.NameAR,
-                    NameEN = Prod.NameEN,
-                    TotalPrice = Prod.TotalPrice,
-                    Quantity = Prod.Quantity,
-                    Brand = Prod.Brand,
-                    CategoryID = Prod.CategoryID,
-                    Description = Prod.Description,
-                    UnitPrice = Prod.UnitPrice,
-                    Discount = Prod.Discount,
-                    productImageList = ListImage
-
-                };
-
-                li.Add(pr);
-            }
-            return li;
+        
+            return (List<ProductDto>)ProductList;
         }
 
         [HttpGet("GetProductByID")]
         public async Task<ProductDto> GetProductByID(int id)
         {
 
-            var Prod = await _pro.GetById(id);
-            List<ProductImageDto> ListImage = new List<ProductImageDto>();
+            var productDto = await _productService.GetById(id);
 
-            var ProductImages = await _img.GetByProductId(Prod.ID);
-
-            foreach (var img in ProductImages)
-            {
-
-                ProductImageDto pro = new ProductImageDto()
-                {
-                    ID = img.ID,
-                    Path = img.Path,
-                    ProductID = img.ProductID,
-                };
-
-                ListImage.Add(pro);
-            }
-
-            ProductDto pr = new ProductDto()
-            {
-                ID = Prod.ID,
-                NameAR = Prod.NameAR,
-                NameEN = Prod.NameEN,
-                TotalPrice = Prod.TotalPrice,
-                Quantity = Prod.Quantity,
-                Brand = Prod.Brand,
-                CategoryID = Prod.CategoryID,
-                Description = Prod.Description,
-                UnitPrice = Prod.UnitPrice,
-                Discount = Prod.Discount,
-                productImageList = ListImage
-
-            };
-            if (Prod != null)
-            {
-                return pr;
-            }
-            else
-            {
-                return null;
-            }
-
+            return productDto;
 
         }
         [HttpGet("GetProductByCats")]
         public async Task<List<ProductDto>> GetProductByCats(int id)
         {
-            var Proudicts = await _pro.GetByCategoryId(id);
-            List<ProductDto> li = new List<ProductDto>();
+            var ProductDtoList = await _productService.GetByCategoryId(id);
+            
+              var ProductList = new List<ProductDto>();
 
-            foreach (var Prod in Proudicts)
+            foreach (var prd in ProductDtoList)
             {
-                var ProductImages = await _img.GetByProductId(Prod.ID);
-                List<ProductImageDto> ListImage = new List<ProductImageDto>();
-                foreach (var im in ProductImages)
-                {
-                    ProductImageDto pro = new ProductImageDto()
-                    {
-                        ID = im.ID,
-                        Path = im.Path,
-                        ProductID = im.ProductID,
-                    };
-
-                    ListImage.Add(pro);
-                }
-
-                ProductDto pr = new ProductDto()
-                {
-                    ID = Prod.ID,
-                    NameAR = Prod.NameAR,
-                    NameEN = Prod.NameEN,
-                    TotalPrice = Prod.TotalPrice,
-                    Quantity = Prod.Quantity,
-                    Brand = Prod.Brand,
-                    CategoryID = Prod.CategoryID,
-                    Description = Prod.Description,
-                    UnitPrice = Prod.UnitPrice,
-                    Discount = Prod.Discount,
-                    productImageList = ListImage
-
-                };
-
-                li.Add(pr);
+                ProductList.Add(prd);
             }
-            return li;
+
+            return ProductList;
         }
 
-        [HttpGet("GetProductImages")]
-        public async Task<List<ProductImageDto>> GetProductImages(int id)
-        {
-            var ProImage = await _img.GetByProductId(id);
-            List<ProductImageDto> li = new List<ProductImageDto>();
-            foreach (var it in ProImage)
-            {
-                li.Add(it);
-            }
-            return li;
-        }
-        [HttpGet("FilterPrice")]
-        public async Task<List<ProductDto>> FilterPrice(float Price)
-        {
-            var product = await _pro.GetByPrice(Price);
-            List<ProductDto> li = new List<ProductDto>();
+        //[HttpGet("GetProductImages")]
+        //public async Task<List<ProductImageDto>> GetProductImages(int id)
+        //{
+        //    var ProImage = await _img.GetByProductId(id);
+        //    List<ProductImageDto> li = new List<ProductImageDto>();
+        //    foreach (var it in ProImage)
+        //    {
+        //        li.Add(it);
+        //    }
+        //    return li;
+        //}
+        //[HttpGet("FilterPrice")]
+        //public async Task<List<ProductDto>> FilterPrice(float Price)
+        //{
+        //    var product = await _pro.GetByPrice(Price);
+        //    List<ProductDto> li = new List<ProductDto>();
 
-            foreach (var Prod in product)
-            {
-                var ProductImages = await _img.GetByProductId(Prod.ID);
-                List<ProductImageDto> ListImage = new List<ProductImageDto>();
-                foreach (var im in ProductImages)
-                {
-                    ProductImageDto pro = new ProductImageDto()
-                    {
-                        ID = im.ID,
-                        Path = im.Path,
-                        ProductID = im.ProductID,
-                    };
+        //    foreach (var Prod in product)
+        //    {
+        //        var ProductImages = await _img.GetByProductId(Prod.ID);
+        //        List<ProductImageDto> ListImage = new List<ProductImageDto>();
+        //        foreach (var im in ProductImages)
+        //        {
+        //            ProductImageDto pro = new ProductImageDto()
+        //            {
+        //                ID = im.ID,
+        //                Path = im.Path,
+        //                ProductID = im.ProductID,
+        //            };
 
-                    ListImage.Add(pro);
-                }
+        //            ListImage.Add(pro);
+        //        }
 
-                ProductDto pr = new ProductDto()
-                {
-                    ID = Prod.ID,
-                    NameAR = Prod.NameAR,
-                    NameEN = Prod.NameEN,
-                    TotalPrice = Prod.TotalPrice,
-                    Quantity = Prod.Quantity,
-                    Brand = Prod.Brand,
-                    CategoryID = Prod.CategoryID,
-                    Description = Prod.Description,
-                    UnitPrice = Prod.UnitPrice,
-                    Discount = Prod.Discount,
-                    productImageList = ListImage
+        //        ProductDto pr = new ProductDto()
+        //        {
+        //            ID = Prod.ID,
+        //            NameAR = Prod.NameAR,
+        //            NameEN = Prod.NameEN,
+        //            TotalPrice = Prod.TotalPrice,
+        //            Quantity = Prod.Quantity,
+        //            Brand = Prod.Brand,
+        //            CategoryID = Prod.CategoryID,
+        //            Description = Prod.Description,
+        //            UnitPrice = Prod.UnitPrice,
+        //            Discount = Prod.Discount,
+        //            productImageList = ListImage
 
-                };
+        //        };
 
-                li.Add(pr);
-            }
-            return li;
-        }
-        [HttpGet("FilterByName")]
-        public async Task<List<ProductDto>> FilterByName(string name)
-        {
-            var product = await _pro.FiletrProductBYname(name);
-            List<ProductDto> li = new List<ProductDto>();
+        //        li.Add(pr);
+        //    }
+        //    return li;
+        //}
+        //[HttpGet("FilterByName")]
+        //public async Task<List<ProductDto>> FilterByName(string name)
+        //{
+        //    var product = await _pro.FiletrProductBYname(name);
+        //    List<ProductDto> li = new List<ProductDto>();
 
-            foreach (var Prod in product)
-            {
-                var ProductImages = await _img.GetByProductId(Prod.ID);
-                List<ProductImageDto> ListImage = new List<ProductImageDto>();
-                foreach (var im in ProductImages)
-                {
-                    ProductImageDto pro = new ProductImageDto()
-                    {
-                        ID = im.ID,
-                        Path = im.Path,
-                        ProductID = im.ProductID,
-                    };
+        //    foreach (var Prod in product)
+        //    {
+        //        var ProductImages = await _img.GetByProductId(Prod.ID);
+        //        List<ProductImageDto> ListImage = new List<ProductImageDto>();
+        //        foreach (var im in ProductImages)
+        //        {
+        //            ProductImageDto pro = new ProductImageDto()
+        //            {
+        //                ID = im.ID,
+        //                Path = im.Path,
+        //                ProductID = im.ProductID,
+        //            };
 
-                    ListImage.Add(pro);
-                }
+        //            ListImage.Add(pro);
+        //        }
 
-                ProductDto pr = new ProductDto()
-                {
-                    ID = Prod.ID,
-                    NameAR = Prod.NameAR,
-                    NameEN = Prod.NameEN,
-                    TotalPrice = Prod.TotalPrice,
-                    Quantity = Prod.Quantity,
-                    Brand = Prod.Brand,
-                    CategoryID = Prod.CategoryID,
-                    Description = Prod.Description,
-                    UnitPrice = Prod.UnitPrice,
-                    Discount = Prod.Discount,
-                    productImageList = ListImage
+        //        ProductDto pr = new ProductDto()
+        //        {
+        //            ID = Prod.ID,
+        //            NameAR = Prod.NameAR,
+        //            NameEN = Prod.NameEN,
+        //            TotalPrice = Prod.TotalPrice,
+        //            Quantity = Prod.Quantity,
+        //            Brand = Prod.Brand,
+        //            CategoryID = Prod.CategoryID,
+        //            Description = Prod.Description,
+        //            UnitPrice = Prod.UnitPrice,
+        //            Discount = Prod.Discount,
+        //            productImageList = ListImage
 
-                };
+        //        };
 
-                li.Add(pr);
-            }
-            return li;
-        }
-
-
-        [HttpGet("GetCategoryBrand")]
-        public async Task<List<string>> GetCategoryBrand(int Cat)
-        {
-            var product = await _pro.GetCategoryBrand(Cat);
-            List<string> li = new List<string>();
-
-            foreach(var it in product)
-            {
-                li.Add(it);
-            }
-            return li;
-        }
-
-        [HttpGet("GetProductByCatAndBrand")]
-        public async Task<List<ProductDto>> GetProductByCatAndBrand( int Category,string Brand)
-        {
-
-            var Proudicts = await _pro.GetProductByCategoryAndPranch(Category, Brand);
+        //        li.Add(pr);
+        //    }
+        //    return li;
+        //}
 
 
-            List<ProductDto> li = new List<ProductDto>();
+        //[HttpGet("GetCategoryBrand")]
+        //public async Task<List<string>> GetCategoryBrand(int Cat)
+        //{
+        //    var product = await _pro.GetCategoryBrand(Cat);
+        //    List<string> li = new List<string>();
 
-            foreach (var Prod in Proudicts)
-            {
-                var ProductImages = await _img.GetByProductId(Prod.ID);
-                List<ProductImageDto> ListImage = new List<ProductImageDto>();
-                foreach (var im in ProductImages)
-                {
-                    ProductImageDto pro = new ProductImageDto()
-                    {
-                        ID = im.ID,
-                        Path = im.Path,
-                        ProductID = im.ProductID,
-                    };
+        //    foreach(var it in product)
+        //    {
+        //        li.Add(it);
+        //    }
+        //    return li;
+        //}
 
-                    ListImage.Add(pro);
-                }
+        //[HttpGet("GetProductByCatAndBrand")]
+        //public async Task<List<ProductDto>> GetProductByCatAndBrand( int Category,string Brand)
+        //{
 
-                ProductDto pr = new ProductDto()
-                {
-                    ID = Prod.ID,
-                    NameAR = Prod.NameAR,
-                    NameEN = Prod.NameEN,
-                    TotalPrice = Prod.TotalPrice,
-                    Quantity = Prod.Quantity,
-                    Brand = Prod.Brand,
-                    CategoryID = Prod.CategoryID,
-                    Description = Prod.Description,
-                    UnitPrice = Prod.UnitPrice,
-                    Discount = Prod.Discount,
-                    productImageList = ListImage
+        //    var Proudicts = await _pro.GetProductByCategoryAndPranch(Category, Brand);
 
-                };
 
-                li.Add(pr);
-            }
-            return li;
-        }
+        //    List<ProductDto> li = new List<ProductDto>();
+
+        //    foreach (var Prod in Proudicts)
+        //    {
+        //        var ProductImages = await _img.GetByProductId(Prod.ID);
+        //        List<ProductImageDto> ListImage = new List<ProductImageDto>();
+        //        foreach (var im in ProductImages)
+        //        {
+        //            ProductImageDto pro = new ProductImageDto()
+        //            {
+        //                ID = im.ID,
+        //                Path = im.Path,
+        //                ProductID = im.ProductID,
+        //            };
+
+        //            ListImage.Add(pro);
+        //        }
+
+        //        ProductDto pr = new ProductDto()
+        //        {
+        //            ID = Prod.ID,
+        //            NameAR = Prod.NameAR,
+        //            NameEN = Prod.NameEN,
+        //            TotalPrice = Prod.TotalPrice,
+        //            Quantity = Prod.Quantity,
+        //            Brand = Prod.Brand,
+        //            CategoryID = Prod.CategoryID,
+        //            Description = Prod.Description,
+        //            UnitPrice = Prod.UnitPrice,
+        //            Discount = Prod.Discount,
+        //            productImageList = ListImage
+
+        //        };
+
+        //        li.Add(pr);
+        //    }
+        //    return li;
+        //}
 
     }
 

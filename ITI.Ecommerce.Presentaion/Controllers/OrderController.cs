@@ -15,7 +15,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         {
             _orderService = orderService;
         }
-        [HttpGet]
+        [HttpGet("CustomerOrders")]
         public async Task<IActionResult> GetOrderListByCustomerId(string CustomerId)
         {
             var Orders  = await _orderService.GetByCustomerId(CustomerId);
@@ -37,7 +37,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return Ok(Order);
         }
 
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<int> Add(OrderDto dto)
         {
            var OrderId= await _orderService.add(dto);
@@ -51,12 +51,12 @@ namespace ITI.Ecommerce.Presentaion.Controllers
              _orderService.Delete(id);
 
         }
-        [HttpPost("Update")]
+        //[HttpPost("Update")]
 
-        public  void Update(OrderDto dto)
-        {
-             _orderService.Update(dto);
+        //public  void Update(OrderDto dto)
+        //{
+        //     _orderService.Update(dto);
 
-        }
+        //}
     }
 }

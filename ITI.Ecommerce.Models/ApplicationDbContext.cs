@@ -19,7 +19,7 @@ namespace ITI.Ecommerce.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -29,10 +29,10 @@ namespace ITI.Ecommerce.Models
             new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
             new ProductConfiguration().Configure(modelBuilder.Entity<Product>());
             new ProductImagesConfiguration().Configure(modelBuilder.Entity<ProductImage>());
-            new ShoppingCartConfiguration().Configure(modelBuilder.Entity<ShoppingCart>());
             new CustomerConfiguration().Configure(modelBuilder.Entity<Customer>());
             new OrderConfiguration().Configure(modelBuilder.Entity<Order>());
             new PaymentConfiguration().Configure(modelBuilder.Entity<Payment>());
+            new OrderProductConfiguration().Configure(modelBuilder.Entity<OrderProduct>());
             modelBuilder.MapRelationships();
 
             base.OnModelCreating(modelBuilder);

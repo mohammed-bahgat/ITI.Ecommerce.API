@@ -23,7 +23,7 @@ namespace ITI.Ecommerce.Services
             {
                 Path = productImageDto.Path,
                 ProductID = productImageDto.ProductID,
-                IsDeleted = productImageDto.IsDeleted
+                //IsDeleted = productImageDto.IsDeleted
             };
 
             await _context.ProductImages.AddAsync(productImage);
@@ -58,7 +58,7 @@ namespace ITI.Ecommerce.Services
                     ID= img.ID,
                     Path = img.Path,
                     ProductID = img.ProductID,
-                    IsDeleted = img.IsDeleted
+                    //IsDeleted = img.IsDeleted
                 };
                 productImageDtoList.Add(productImageDto);
 
@@ -81,7 +81,7 @@ namespace ITI.Ecommerce.Services
                     ID = productImage.ID,
                     Path = productImage.Path,
                     ProductID = productImage.ProductID,
-                    IsDeleted = productImage.IsDeleted
+                    //IsDeleted = productImage.IsDeleted
                 };
                 return productImageDto;
             }
@@ -98,7 +98,7 @@ namespace ITI.Ecommerce.Services
                     ID = img.ID,
                     Path = img.Path,
                     ProductID = img.ProductID,
-                    IsDeleted = img.IsDeleted
+                    //IsDeleted = img.IsDeleted
                 };
                 productImageDtoList.Add(productImageDto);
 

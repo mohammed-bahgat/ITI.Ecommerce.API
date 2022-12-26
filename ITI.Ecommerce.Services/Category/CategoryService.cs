@@ -18,7 +18,7 @@ namespace ITI.Ecommerce.Services
             {
                 NameAR = categoryDto.NameAR,
                 NameEN = categoryDto.NameEN,
-                IsDeleted = categoryDto.IsDeleted,
+                //IsDeleted = categoryDto.IsDeleted,
             };
             await _context.Categories.AddAsync(category);
             _context.SaveChanges();
@@ -82,7 +82,7 @@ namespace ITI.Ecommerce.Services
                         ID = category.ID,
                         NameAR = category.NameAR,
                         NameEN = category.NameEN,
-                        IsDeleted = category.IsDeleted,
+                        //IsDeleted = category.IsDeleted,
                     };
                     categoryDtosList.Add(categoryDto);
                 }
@@ -104,8 +104,8 @@ namespace ITI.Ecommerce.Services
                 {
                     ID = category.ID,
                     NameAR = category.NameAR,
-                    NameEN = category.NameEN,
-                    IsDeleted = category.IsDeleted
+                    NameEN = category.NameEN
+                    //IsDeleted = category.IsDeleted
 , 
                 };
                 return categoryDto;
@@ -149,7 +149,7 @@ namespace ITI.Ecommerce.Services
                         ID = catDto.ID,
                         NameAR = catDto.NameAR,
                         NameEN = catDto.NameEN,
-                        IsDeleted = catDto.IsDeleted
+                        //IsDeleted = catDto.IsDeleted
 
                     };
 

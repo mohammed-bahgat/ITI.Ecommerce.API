@@ -7,12 +7,12 @@
         public int PaymentId { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsDeleted { get; set; }
-        public int ShoppingCartId { get; set; }
-
+        public string status { get; set; }
+       
 
         //Navigation property
 
-        public virtual ShoppingCart ShoppingCart { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual Customer customer { get; set; }
         public virtual Payment Payment { get; set; }
     }

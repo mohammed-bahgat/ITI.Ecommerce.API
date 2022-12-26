@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace ITI.Ecommerce.Models
 {
@@ -6,48 +8,31 @@ namespace ITI.Ecommerce.Models
     {
         public static void MapRelationships(this ModelBuilder builder)
         {
+            //Relation between category and Product One To Many
 
-            //Relation one to many between Category and Product
-            builder
-               .Entity<Product>()
-               .HasOne(i => i.Category)
-               .WithMany(i => i.ProductList)
-               .HasForeignKey(i => i.CategoryID)
-               .IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Product>().HasOne(p => p.Category)
+                .WithMany(c => c.ProductList).HasForeignKey(p => p.CategoryID);
 
-            //Relation one to many between Category and ProductImage
-            builder
-               .Entity<ProductImage>()
-               .HasOne(i => i.Product)
-               .WithMany(i => i.productImageList)
-               .HasForeignKey(i => i.ProductID)
-               .IsRequired().OnDelete(DeleteBehavior.Cascade);
+            //Relation between Product and ProductImage One To Many
 
-            //Relation Many to many between Shopping Cart and Product
-            builder
-               .Entity<ShoppingCart>()
-               .HasMany(i => i.productList)
-               .WithMany(i => i.ShoppingCartList);
+            builder.Entity<ProductImage>().HasOne(i => i.Product)
+                .WithMany(p => p.productImageList).HasForeignKey(p => p.ProductID);
 
-            //Relation One to One between Shopping Cart and Order
-            builder
-               .Entity<ShoppingCart>()
-              .HasOne(i => i.Order).WithOne(i => i.ShoppingCart);
 
-            //Relation one to many between Customer and Order
-            builder
-               .Entity<Customer>()
-               .HasMany(i => i.orderList).WithOne(i => i.customer)
-               .HasForeignKey(i => i.CustomerId)
-               .IsRequired().OnDelete(DeleteBehavior.Cascade);
+            //Relation between Customer and Order One To Many
 
-            builder.Entity<Order>()
-                .HasOne(i => i.customer).WithMany(i => i.orderList).HasForeignKey(i => i.CustomerId)
-                 .IsRequired().OnDelete(DeleteBehavior.Cascade);
-            //Relation One to One between Payment and Order
-            builder
-               .Entity<Payment>()
-              .HasOne(i => i.Order).WithOne(i => i.Payment);
+            builder.Entity<Order>().HasOne(o=>o.customer)
+                .WithMany(c=> c.orderList).HasForeignKey(o=>o.CustomerId);
+
+
+            //Relation between Product and Order Many To Many
+
+            builder.Entity<OrderProduct>().HasOne<Order>(OP=>OP.Order)
+               .WithMany(O=>O.OrderProducts).HasForeignKey(OP=>OP.OrderId);
+
+
+            builder.Entity<OrderProduct>().HasOne<Product>(OP => OP.Product)
+               .WithMany(O => O.OrderProducts).HasForeignKey(OP => OP.ProductId);
         }
     }
 }

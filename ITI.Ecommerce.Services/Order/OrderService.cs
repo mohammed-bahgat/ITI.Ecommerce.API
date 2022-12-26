@@ -1,4 +1,5 @@
 ﻿using DTOs;
+using ITI.Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITI.Ecommerce.Services
@@ -6,30 +7,44 @@ namespace ITI.Ecommerce.Services
     public class OrderService : IOrderService
     {
 
-        private readonly ApplicationDbContext _context ;
-        public OrderService(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        private readonly IProductService _productService;
+        public OrderService(ApplicationDbContext context, IProductService productService)
         {
-           _context = context;
-
+            _context = context;
+            _productService = productService;   
         }
+
         public async Task<int> add(OrderDto orderDto)
         {
+            
             Order order = new Order()
             {
 
                 CustomerId = orderDto.CustomerId,
                 PaymentId = orderDto.PaymentId,
                 OrderDate = orderDto.OrderDate,
-                IsDeleted = orderDto.IsDeleted,
-                ShoppingCartId = orderDto.ShoppingCartId
+                IsDeleted = false,
+                status = "Pending",
+               
             };
-
+            order.OrderDate = DateTime.Now;
             await _context.Orders.AddAsync(order);
+            foreach (var prd in orderDto.ProductList)
+            {
+                var orderProduct = new OrderProduct()
+                {
+                    OrderId = order.ID,
+                    ProductId = prd.ID
+                };
+                await _context.OrderProducts.AddAsync(orderProduct);
+            }
+
             _context.SaveChanges();
             return order.ID;
         }
 
-     
+
 
         public void Delete(int id)
         {
@@ -51,13 +66,20 @@ namespace ITI.Ecommerce.Services
             var orders = await _context.Orders.Where(o => o.IsDeleted == false).ToListAsync();
             foreach (var order in orders)
             {
+                var orderProductIds = await _context.OrderProducts.Where(op => op.OrderId == order.ID).Select(op => op.ProductId).ToListAsync();
+
                 OrderDto orderDto = new OrderDto();
                 orderDto.ID = order.ID;
                 orderDto.CustomerId = order.CustomerId;
                 orderDto.PaymentId = order.PaymentId;
                 orderDto.OrderDate = order.OrderDate;
-                orderDto.IsDeleted = order.IsDeleted;
-                orderDto.ShoppingCartId = order.ShoppingCartId;
+                orderDto.Status = order.status;
+                foreach (var PrdId in orderProductIds)
+                {
+                    var prd = await _productService.GetById(PrdId);
+                    orderDto.ProductList.Add(prd);
+                }
+
                 orderList.Add(orderDto);
             }
             return orderList;
@@ -66,6 +88,7 @@ namespace ITI.Ecommerce.Services
         public async Task<OrderDto> GetById(int id)
         {
             var order = await _context.Orders.SingleOrDefaultAsync(o => o.ID == id);
+            var orderProductIds = await _context.OrderProducts.Where(op => op.OrderId == id).Select(op => op.ProductId).ToListAsync();
             if (order == null)
             {
                 throw new Exception("this order is not found");
@@ -78,27 +101,19 @@ namespace ITI.Ecommerce.Services
                     CustomerId = order.CustomerId,
                     PaymentId = order.PaymentId,
                     OrderDate = order.OrderDate,
-                    IsDeleted = order.IsDeleted,
-                    ShoppingCartId = order.ShoppingCartId
+                    Status=order.status
                 };
+
+                foreach (var PrdId in orderProductIds)
+                {
+                    var prd = await _productService.GetById(id);
+                    orderDto.ProductList.Add(prd);
+                }
                 return orderDto;
             }
         }
 
-        //public void Update(OrderDto orderDto)
-        //{
-        //    Order order = new Order()
-        //    {
-        //        ID = orderDto.ID,
-        //        CustomerId = orderDto.CustomerId,
-        //        PaymentId = orderDto.PaymentId,
-        //        OrderDate = orderDto.OrderDate,
-        //        IsDeleted = orderDto.IsDeleted,
-        //        ShoppingCartId = orderDto.ShoppingCartId
-        //    };
-        //    _context.Update(order);
-        //    _context.SaveChanges();
-        //}
+    
         public async Task<IEnumerable<OrderDto>> GetByCustomerId(string CustomerId)
         {
             List<OrderDto> orderDtoList = new List<OrderDto>();
@@ -107,35 +122,42 @@ namespace ITI.Ecommerce.Services
 
             foreach (var order in orders)
             {
+                var orderProductIds = await _context.OrderProducts.Where(op => op.OrderId == order.ID).Select(op => op.ProductId).ToListAsync();
+
                 OrderDto orderDto = new OrderDto()
                 {
                     ID = order.ID,
-                    CustomerId = order.CustomerId,
-                    IsDeleted=order.IsDeleted,
-                    OrderDate=order.OrderDate,
-                    PaymentId=order.PaymentId,
-                    ShoppingCartId = order.ShoppingCartId,
-
+                    CustomerId = order.CustomerId,   
+                    OrderDate = order.OrderDate,
+                    PaymentId = order.PaymentId,
+                    Status=order.status
+                   
                 };
+
+                foreach (var PrdId in orderProductIds)
+                {
+                    var prd = await _productService.GetById(PrdId);
+                    orderDto.ProductList.Add(prd);
+                }
                 orderDtoList.Add(orderDto);
 
             }
 
             return orderDtoList;
         }
-        public void Update(OrderDto orderDto)
-        {
-            var order = _context.Orders.FirstOrDefault(o => o.ID == orderDto.ID);
+        //public void Update(OrderDto orderDto)
+        //{
+        //    var order = _context.Orders.FirstOrDefault(o => o.ID == orderDto.ID);
 
-            if (order != null)
-            {
-                order.CustomerId = orderDto.CustomerId;
-                order.PaymentId = orderDto.PaymentId;
-                order.OrderDate = orderDto.OrderDate;
-                order.ShoppingCartId = orderDto.ShoppingCartId;
-                _context.SaveChanges();
-            }
-        }
+        //    if (order != null)
+        //    {
+        //        order.CustomerId = orderDto.CustomerId;
+        //        order.PaymentId = orderDto.PaymentId;
+        //        order.OrderDate = orderDto.OrderDate;
+
+        //        _context.SaveChanges();
+        //    }
+        //}
 
 
     }

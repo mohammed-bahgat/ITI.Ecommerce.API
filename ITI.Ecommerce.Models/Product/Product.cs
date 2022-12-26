@@ -23,6 +23,6 @@ namespace ITI.Ecommerce.Models
         //Navigation property
         public virtual Category Category { get; set; }
         public virtual ICollection<ProductImage> productImageList { get; set; }
-        public virtual ICollection<ShoppingCart> ShoppingCartList { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

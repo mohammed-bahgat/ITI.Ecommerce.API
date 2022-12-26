@@ -16,10 +16,10 @@ namespace ITI.Ecommerce.Presentaion.Controllers
 
         }
        [HttpPost("Add")]
-        public async Task<PaymentDto> Add(PaymentDto dto)
+        public async Task<int> Add(PaymentDto dto)
         {
-         await _Pay.add(dto);
-          return dto;
+         var PaymentId= await _Pay.add(dto);
+          return PaymentId;
         }
 
         [HttpPost("Update")]

@@ -22,90 +22,90 @@ namespace ITI.Ecommerce.Presentaion.Controllers
        {
             var Categories=await _Cat.GetAll();
 
-            List<CategoryDto> li = new List<CategoryDto>();
+            //List<CategoryDto> li = new List<CategoryDto>();
 
-            foreach (var Cat in Categories)
-            {
-                var Product = await _Pro.GetByCategoryId(Cat.ID);
-                List<ProductDto> ListPro = new List<ProductDto>();
-                foreach (var Prod in Product)
-                {
-                    ProductDto pro = new ProductDto()
-                    {
-                        ID = Prod.ID,
-                        NameAR = Prod.NameAR,
-                        NameEN = Prod.NameEN,
-                        TotalPrice = Prod.TotalPrice,
-                        Quantity = Prod.Quantity,
-                        Brand = Prod.Brand,
-                        CategoryID = Prod.CategoryID,
-                        Description = Prod.Description,
-                        UnitPrice = Prod.UnitPrice,
-                        Discount = Prod.Discount,
-                       // productImageList = ListImage
+            //foreach (var Cat in Categories)
+            //{
+            //    var Product = await _Pro.GetByCategoryId(Cat.ID);
+            //    List<ProductDto> ListPro = new List<ProductDto>();
+            //    foreach (var Prod in Product)
+            //    {
+            //        ProductDto pro = new ProductDto()
+            //        {
+            //            ID = Prod.ID,
+            //            NameAR = Prod.NameAR,
+            //            NameEN = Prod.NameEN,
+            //            TotalPrice = Prod.TotalPrice,
+            //            Quantity = Prod.Quantity,
+            //            Brand = Prod.Brand,
+            //            CategoryID = Prod.CategoryID,
+            //            Description = Prod.Description,
+            //            UnitPrice = Prod.UnitPrice,
+            //            Discount = Prod.Discount,
+            //           // productImageList = ListImage
 
-                    };
+            //        };
 
-                    ListPro.Add(pro);
-                }
+            //        ListPro.Add(pro);
+            //    }
 
-                CategoryDto Cate = new CategoryDto()
-                {
-                    ID = Cat.ID,
-                    NameAR = Cat.NameAR,
-                    NameEN = Cat.NameEN,
-                    ProductList = ListPro,
-                };
+            //    CategoryDto Cate = new CategoryDto()
+            //    {
+            //        ID = Cat.ID,
+            //        NameAR = Cat.NameAR,
+            //        NameEN = Cat.NameEN,
+            //        ProductList = ListPro,
+            //    };
 
-                li.Add(Cate);
-            }
+            //    li.Add(Cate);
+            //}
 
 
 
-            return Ok(li);
+            return Ok(Categories);
        }
         [HttpGet("GetByID")]
         public async Task<IActionResult> GatByID(int id)
         {
 
           var Category = await _Cat.GetById(id);
-            var Product = await _Pro.GetByCategoryId(Category.ID);
-            List<ProductDto> ListPro = new List<ProductDto>();
+            //var Product = await _Pro.GetByCategoryId(Category.ID);
+            //List<ProductDto> ListPro = new List<ProductDto>();
 
             if (Category != null)
             {
-                foreach (var Prod in Product)
-                {
-                    ProductDto pro = new ProductDto()
-                    {
-                        ID = Prod.ID,
-                        NameAR = Prod.NameAR,
-                        NameEN = Prod.NameEN,
-                        TotalPrice = Prod.TotalPrice,
-                        Quantity = Prod.Quantity,
-                        Brand = Prod.Brand,
-                        CategoryID = Prod.CategoryID,
-                        Description = Prod.Description,
-                        UnitPrice = Prod.UnitPrice,
-                        Discount = Prod.Discount,
-                        // productImageList = ListImage
+                //foreach (var Prod in Product)
+                //{
+                //    ProductDto pro = new ProductDto()
+                //    {
+                //        ID = Prod.ID,
+                //        NameAR = Prod.NameAR,
+                //        NameEN = Prod.NameEN,
+                //        TotalPrice = Prod.TotalPrice,
+                //        Quantity = Prod.Quantity,
+                //        Brand = Prod.Brand,
+                //        CategoryID = Prod.CategoryID,
+                //        Description = Prod.Description,
+                //        UnitPrice = Prod.UnitPrice,
+                //        Discount = Prod.Discount,
+                //        // productImageList = ListImage
 
-                    };
+                //    };
 
-                    ListPro.Add(pro);
+                //    ListPro.Add(pro);
 
-                }
-                CategoryDto Cate = new CategoryDto()
-                {
-                    ID = Category.ID,
-                    NameAR = Category.NameAR,
-                    NameEN = Category.NameEN,
-                    ProductList = ListPro,
-                };
-                return Ok(Cate);
+                //}
+                //CategoryDto Cate = new CategoryDto()
+                //{
+                //    ID = Category.ID,
+                //    NameAR = Category.NameAR,
+                //    NameEN = Category.NameEN,
+                //    ProductList = ListPro,
+                //};
+                return Ok(Category);
             }
             else
-            return Ok(null);
+            return Ok("not found category");
         }
         [HttpGet("GetByName")]
         public async Task<IActionResult> GatByName(string name)
@@ -144,7 +144,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
                     ID = Cat.ID,
                     NameAR = Cat.NameAR,
                     NameEN = Cat.NameEN,
-                    ProductList = ListPro,
+                
                 };
 
                 li.Add(Cate);

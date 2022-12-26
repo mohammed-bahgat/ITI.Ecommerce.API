@@ -42,10 +42,9 @@ namespace DTOs
         public float Discount { get; set; }
         [Range(0, float.MaxValue, ErrorMessage = "Please enter valid integer Number")]
         public float TotalPrice { get; set; }
-        public bool IsDeleted { get; set; }
-        /// public ICollection<Microsoft.AspNetCore.Http.IFormFile> Images { get; set; }
-        public ICollection<ProductImageDto> productImageList { get; set; }
-       // public ICollection<ShoppingCartDto> ShoppingCartList { get; set; }
+
+        public ICollection<ProductImageDto> ProductImageList { get; set; }
+     
     }
 }
 

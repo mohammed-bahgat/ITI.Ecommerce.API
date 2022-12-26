@@ -13,8 +13,8 @@ namespace ITI.Ecommerce.Models
             builder.Property(i => i.CustomerId).IsRequired();
             builder.Property(i => i.PaymentId).IsRequired();
             builder.Property(i => i.OrderDate).IsRequired();
-            builder.Property(i => i.IsDeleted).IsRequired().HasDefaultValue(false); ;
-            builder.Property(i => i.ShoppingCartId).IsRequired();
+            builder.Property(i => i.IsDeleted).IsRequired().HasDefaultValue(false); 
+           
         }
     }
 }

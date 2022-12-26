@@ -4,6 +4,7 @@ using ITI.Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITI.Ecommerce.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221217225011_Edit on Shopping cart model")]
+    partial class EditonShoppingcartmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,9 @@ namespace ITI.Ecommerce.Models.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -158,8 +163,8 @@ namespace ITI.Ecommerce.Models.Migrations
                     b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShoppingCartId")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -168,25 +173,10 @@ namespace ITI.Ecommerce.Models.Migrations
                     b.HasIndex("PaymentId")
                         .IsUnique();
 
+                    b.HasIndex("ShoppingCartId")
+                        .IsUnique();
+
                     b.ToTable("Order", (string)null);
-                });
-
-            modelBuilder.Entity("ITI.Ecommerce.Models.OrderProduct", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductRate")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("ITI.Ecommerce.Models.Payment", b =>
@@ -291,6 +281,24 @@ namespace ITI.Ecommerce.Models.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("ProductImage", (string)null);
+                });
+
+            modelBuilder.Entity("ITI.Ecommerce.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ShoppingCart", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -426,6 +434,21 @@ namespace ITI.Ecommerce.Models.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.Property<int>("ShoppingCartListID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("productListID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ShoppingCartListID", "productListID");
+
+                    b.HasIndex("productListID");
+
+                    b.ToTable("ProductShoppingCart");
+                });
+
             modelBuilder.Entity("ITI.Ecommerce.Models.Order", b =>
                 {
                     b.HasOne("ITI.Ecommerce.Models.Customer", "customer")
@@ -440,28 +463,17 @@ namespace ITI.Ecommerce.Models.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ITI.Ecommerce.Models.ShoppingCart", "ShoppingCart")
+                        .WithOne("Order")
+                        .HasForeignKey("ITI.Ecommerce.Models.Order", "ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Payment");
 
+                    b.Navigation("ShoppingCart");
+
                     b.Navigation("customer");
-                });
-
-            modelBuilder.Entity("ITI.Ecommerce.Models.OrderProduct", b =>
-                {
-                    b.HasOne("ITI.Ecommerce.Models.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ITI.Ecommerce.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ITI.Ecommerce.Models.Product", b =>
@@ -537,6 +549,21 @@ namespace ITI.Ecommerce.Models.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProductShoppingCart", b =>
+                {
+                    b.HasOne("ITI.Ecommerce.Models.ShoppingCart", null)
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartListID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ITI.Ecommerce.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("productListID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ITI.Ecommerce.Models.Category", b =>
                 {
                     b.Navigation("ProductList");
@@ -547,11 +574,6 @@ namespace ITI.Ecommerce.Models.Migrations
                     b.Navigation("orderList");
                 });
 
-            modelBuilder.Entity("ITI.Ecommerce.Models.Order", b =>
-                {
-                    b.Navigation("OrderProducts");
-                });
-
             modelBuilder.Entity("ITI.Ecommerce.Models.Payment", b =>
                 {
                     b.Navigation("Order");
@@ -559,9 +581,12 @@ namespace ITI.Ecommerce.Models.Migrations
 
             modelBuilder.Entity("ITI.Ecommerce.Models.Product", b =>
                 {
-                    b.Navigation("OrderProducts");
-
                     b.Navigation("productImageList");
+                });
+
+            modelBuilder.Entity("ITI.Ecommerce.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

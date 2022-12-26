@@ -1,4 +1,4 @@
-using ITI.Ecommerce.Models;
+﻿using ITI.Ecommerce.Models;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -42,27 +42,30 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 builder.Services.AddTransient<ICustomerService, CustomerService>();
+
 builder.Services.AddTransient<IProductService, ProductService>();
+
 builder.Services.AddTransient<IProductImageService, ProductImageService>();
-
-
-builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
-
 
 builder.Services.AddTransient<ICategoryServie, CategoryService>();
 
 builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddTransient<IPaymentService, PaymentService>();
-builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
 
 
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddTransient<IOrderService, OrderService>();
+
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(i =>
+    {
+        i.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,9 +77,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-//app.MapControllerRoute("main", "{controller=Home}/{action=Index}");
-app.UseAuthorization();
 
+
+app.UseCors();
+//app.MapControllerRoute("", "{controller=Home}/{action=Index}");
+
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
