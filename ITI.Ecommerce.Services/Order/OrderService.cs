@@ -30,6 +30,7 @@ namespace ITI.Ecommerce.Services
             };
             order.OrderDate = DateTime.Now;
             await _context.Orders.AddAsync(order);
+            _context.SaveChanges();
             foreach (var prd in orderDto.ProductList)
             {
                 var orderProduct = new OrderProduct()
@@ -74,12 +75,15 @@ namespace ITI.Ecommerce.Services
                 orderDto.PaymentId = order.PaymentId;
                 orderDto.OrderDate = order.OrderDate;
                 orderDto.Status = order.status;
+
+                var prdDtoList = new List<ProductDto>();
+
                 foreach (var PrdId in orderProductIds)
                 {
                     var prd = await _productService.GetById(PrdId);
-                    orderDto.ProductList.Add(prd);
+                    prdDtoList.Add(prd);
                 }
-
+                orderDto.ProductList = prdDtoList;
                 orderList.Add(orderDto);
             }
             return orderList;
@@ -103,12 +107,14 @@ namespace ITI.Ecommerce.Services
                     OrderDate = order.OrderDate,
                     Status=order.status
                 };
+                var prdDtoList = new List<ProductDto>();
 
                 foreach (var PrdId in orderProductIds)
                 {
-                    var prd = await _productService.GetById(id);
-                    orderDto.ProductList.Add(prd);
+                    var prd = await _productService.GetById(PrdId);
+                    prdDtoList.Add(prd);
                 }
+                orderDto.ProductList = prdDtoList;
                 return orderDto;
             }
         }
@@ -134,11 +140,15 @@ namespace ITI.Ecommerce.Services
                    
                 };
 
+
+                var prdDtoList = new List<ProductDto>();
+
                 foreach (var PrdId in orderProductIds)
                 {
                     var prd = await _productService.GetById(PrdId);
-                    orderDto.ProductList.Add(prd);
+                    prdDtoList.Add(prd);
                 }
+                orderDto.ProductList = prdDtoList;
                 orderDtoList.Add(orderDto);
 
             }

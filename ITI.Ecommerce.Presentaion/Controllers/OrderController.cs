@@ -15,7 +15,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         {
             _orderService = orderService;
         }
-        [HttpGet("CustomerOrders")]
+        [HttpGet("GetByCustomerId")]
         public async Task<IActionResult> GetOrderListByCustomerId(string CustomerId)
         {
             var Orders  = await _orderService.GetByCustomerId(CustomerId);
