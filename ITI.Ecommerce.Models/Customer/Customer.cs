@@ -10,17 +10,10 @@ namespace ITI.Ecommerce.Models
     public class Customer : IdentityUser
     {
        
-        
-       
         public string Address { get; set; }
         public string MobileNumber { get; set; }
-        
-
         public DateTime DateEntered { get; set; }
-      
-
         public bool IsDeleted { set; get; }
-
 
         //Navigation property
 

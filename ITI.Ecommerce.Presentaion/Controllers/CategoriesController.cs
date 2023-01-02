@@ -10,56 +10,19 @@ namespace ITI.Ecommerce.Presentaion.Controllers
     public class CategoriesController : ControllerBase
     {
 
-        private readonly ICategoryServie _Cat;
-        private readonly IProductService _Pro;
-        public CategoriesController(ICategoryServie Cat,IProductService Pro)
+        private readonly ICategoryServie _categoryService;
+        private readonly IProductService _productService;
+        public CategoriesController(ICategoryServie categoryService, IProductService productService)
         {
-            _Cat=Cat;
-            _Pro=Pro;
+            _categoryService = categoryService;
+            _productService = productService;
         }
         [HttpGet("GetAll")]
        public  async Task<IActionResult> GetAll()
        {
-            var Categories=await _Cat.GetAll();
+            var Categories=await _categoryService.GetAll();
 
-            //List<CategoryDto> li = new List<CategoryDto>();
-
-            //foreach (var Cat in Categories)
-            //{
-            //    var Product = await _Pro.GetByCategoryId(Cat.ID);
-            //    List<ProductDto> ListPro = new List<ProductDto>();
-            //    foreach (var Prod in Product)
-            //    {
-            //        ProductDto pro = new ProductDto()
-            //        {
-            //            ID = Prod.ID,
-            //            NameAR = Prod.NameAR,
-            //            NameEN = Prod.NameEN,
-            //            TotalPrice = Prod.TotalPrice,
-            //            Quantity = Prod.Quantity,
-            //            Brand = Prod.Brand,
-            //            CategoryID = Prod.CategoryID,
-            //            Description = Prod.Description,
-            //            UnitPrice = Prod.UnitPrice,
-            //            Discount = Prod.Discount,
-            //           // productImageList = ListImage
-
-            //        };
-
-            //        ListPro.Add(pro);
-            //    }
-
-            //    CategoryDto Cate = new CategoryDto()
-            //    {
-            //        ID = Cat.ID,
-            //        NameAR = Cat.NameAR,
-            //        NameEN = Cat.NameEN,
-            //        ProductList = ListPro,
-            //    };
-
-            //    li.Add(Cate);
-            //}
-
+        
 
 
             return Ok(Categories);
@@ -68,40 +31,12 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         public async Task<IActionResult> GatByID(int id)
         {
 
-          var Category = await _Cat.GetById(id);
-            //var Product = await _Pro.GetByCategoryId(Category.ID);
-            //List<ProductDto> ListPro = new List<ProductDto>();
+          var Category = await _categoryService.GetById(id);
+       
 
             if (Category != null)
             {
-                //foreach (var Prod in Product)
-                //{
-                //    ProductDto pro = new ProductDto()
-                //    {
-                //        ID = Prod.ID,
-                //        NameAR = Prod.NameAR,
-                //        NameEN = Prod.NameEN,
-                //        TotalPrice = Prod.TotalPrice,
-                //        Quantity = Prod.Quantity,
-                //        Brand = Prod.Brand,
-                //        CategoryID = Prod.CategoryID,
-                //        Description = Prod.Description,
-                //        UnitPrice = Prod.UnitPrice,
-                //        Discount = Prod.Discount,
-                //        // productImageList = ListImage
-
-                //    };
-
-                //    ListPro.Add(pro);
-
-                //}
-                //CategoryDto Cate = new CategoryDto()
-                //{
-                //    ID = Category.ID,
-                //    NameAR = Category.NameAR,
-                //    NameEN = Category.NameEN,
-                //    ProductList = ListPro,
-                //};
+               
                 return Ok(Category);
             }
             else
@@ -110,13 +45,13 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         [HttpGet("GetByName")]
         public async Task<IActionResult> GatByName(string name)
         {
-            var Categories = await _Cat.GetByName(name);
+            var Categories = await _categoryService.GetByName(name);
 
             List<CategoryDto> li = new List<CategoryDto>();
 
             foreach (var Cat in Categories)
             {
-                var Product = await _Pro.GetByCategoryId(Cat.ID);
+                var Product = await _productService.GetByCategoryId(Cat.ID);
                 List<ProductDto> ListPro = new List<ProductDto>();
                 foreach (var Prod in Product)
                 {
@@ -132,7 +67,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
                         Description = Prod.Description,
                         UnitPrice = Prod.UnitPrice,
                         Discount = Prod.Discount,
-                        // productImageList = ListImage
+                      
 
                     };
 

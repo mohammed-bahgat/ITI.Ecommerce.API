@@ -25,10 +25,7 @@ namespace ITI.Ecommerce.Services
             return payment.ID;
         }
 
-        //public void Delete(PaymentDto paymentDto)
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
 
         public async Task<IEnumerable<PaymentDto>> GetAll()
         {
@@ -76,12 +73,7 @@ namespace ITI.Ecommerce.Services
             pay.PaymentType = paymentDto.PaymentType;
 
 
-            //Payment payment = new Payment()
-            //{
-            //    ID = paymentDto.ID,
-            //    PaymentType = paymentDto.PaymentType,
-            //    IsAllowed = paymentDto.IsAllowed
-            //};
+        
 
            
             _context.SaveChanges();

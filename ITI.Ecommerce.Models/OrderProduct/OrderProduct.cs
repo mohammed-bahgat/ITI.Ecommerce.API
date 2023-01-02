@@ -11,9 +11,9 @@ namespace ITI.Ecommerce.Models
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int ProductRate { get; set; }
-
+        public int Quantity { get; set; }
         //Navigation property
-        public Order Order { get; set; }
-        public Product Product { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

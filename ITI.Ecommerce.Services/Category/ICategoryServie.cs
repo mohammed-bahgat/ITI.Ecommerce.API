@@ -10,8 +10,7 @@ namespace ITI.Ecommerce.Services
         Task<List<CategoryDto>> GetByName(string name);
         void Delete(CategoryDto categoryDto);
         void CDelete(int id);
-        //Category CUpdate(int id);
-        //Task<CategoryDto> CDelete(int id);
+     
 
         void Update( CategoryDto categoryDto);
         //Task Update( CategoryDto categoryDto);

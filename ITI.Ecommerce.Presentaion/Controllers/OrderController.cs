@@ -44,19 +44,32 @@ namespace ITI.Ecommerce.Presentaion.Controllers
             return OrderId;
         }
 
-        [HttpPost("Delete")]
+        [HttpGet("Delete")]
 
         public void  Delete(int id)
         {
              _orderService.Delete(id);
 
         }
-        //[HttpPost("Update")]
+        [HttpPost("Update")]
 
-        //public  void Update(OrderDto dto)
-        //{
-        //     _orderService.Update(dto);
+        public void Update(OrderDto dto)
+        {
+            _orderService.Update(dto);
 
-        //}
+        }
+
+        [HttpGet("GetRate")]
+        public async Task<int> GetRate(int orderId, int productId)
+        {
+            var rate = await _orderService.GetProductRate(orderId, productId);
+            return rate;
+        }
+        [HttpGet("SetRate")]
+        public async Task SetRate(int orderId, int productId, int rate)
+        {
+            await _orderService.SetProductRate(orderId, productId, rate);
+            
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DTOs;
 using ITI.Ecommerce.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITI.Ecommerce.Services
@@ -36,7 +37,8 @@ namespace ITI.Ecommerce.Services
                 var orderProduct = new OrderProduct()
                 {
                     OrderId = order.ID,
-                    ProductId = prd.ID
+                    ProductId = prd.ID,
+                    Quantity=prd.Quantity,
                 };
                 await _context.OrderProducts.AddAsync(orderProduct);
             }
@@ -77,14 +79,19 @@ namespace ITI.Ecommerce.Services
                 orderDto.Status = order.status;
 
                 var prdDtoList = new List<ProductDto>();
-
-                foreach (var PrdId in orderProductIds)
+               
+                var orderprds = await _context.OrderProducts.Where(op => op.OrderId == order.ID).ToListAsync();
+                foreach (var item in orderprds)
                 {
-                    var prd = await _productService.GetById(PrdId);
+                    var prd = await _productService.GetById(item.ProductId);
+                    prd.Quantity = item.Quantity;
                     prdDtoList.Add(prd);
                 }
                 orderDto.ProductList = prdDtoList;
                 orderList.Add(orderDto);
+
+
+           
             }
             return orderList;
         }
@@ -109,9 +116,11 @@ namespace ITI.Ecommerce.Services
                 };
                 var prdDtoList = new List<ProductDto>();
 
-                foreach (var PrdId in orderProductIds)
+                var orderprds = await _context.OrderProducts.Where(op => op.OrderId == order.ID).ToListAsync();
+                foreach (var item in orderprds)
                 {
-                    var prd = await _productService.GetById(PrdId);
+                    var prd = await _productService.GetById(item.ProductId);
+                    prd.Quantity = item.Quantity;
                     prdDtoList.Add(prd);
                 }
                 orderDto.ProductList = prdDtoList;
@@ -143,9 +152,11 @@ namespace ITI.Ecommerce.Services
 
                 var prdDtoList = new List<ProductDto>();
 
-                foreach (var PrdId in orderProductIds)
+                var orderprds = await _context.OrderProducts.Where(op => op.OrderId == order.ID).ToListAsync();
+                foreach (var item in orderprds)
                 {
-                    var prd = await _productService.GetById(PrdId);
+                    var prd = await _productService.GetById(item.ProductId);
+                    prd.Quantity = item.Quantity;
                     prdDtoList.Add(prd);
                 }
                 orderDto.ProductList = prdDtoList;
@@ -155,20 +166,36 @@ namespace ITI.Ecommerce.Services
 
             return orderDtoList;
         }
-        //public void Update(OrderDto orderDto)
-        //{
-        //    var order = _context.Orders.FirstOrDefault(o => o.ID == orderDto.ID);
+        public async Task Update(OrderDto orderDto)
+        {
+            var orderId = (int)orderDto.ID;
+          
+            var order = new Order()
+            {
+                ID = orderId
+            };
+            _context.Orders.Attach(order);
+            _context.Orders.Remove(order);
+           
+           await add(orderDto);
+        }
+        public async Task<int> GetProductRate(int orderId,int prdId)
+        {
+            var productRate =await _context.OrderProducts.Where(op=>op.OrderId==orderId && op.ProductId==prdId).Select(op=>op.ProductRate).FirstOrDefaultAsync();
+            _ = productRate == null ? productRate = 0 : productRate;
+            return productRate;
+        }
 
-        //    if (order != null)
-        //    {
-        //        order.CustomerId = orderDto.CustomerId;
-        //        order.PaymentId = orderDto.PaymentId;
-        //        order.OrderDate = orderDto.OrderDate;
+        public async Task SetProductRate(int orderId, int prdId,int rate)
+        {
+            var product = await _context.OrderProducts.Where(op => op.OrderId == orderId && op.ProductId == prdId).FirstOrDefaultAsync();
+            product.ProductRate = rate;
+           await _context.SaveChangesAsync();
+        }
+      
 
-        //        _context.SaveChanges();
-        //    }
-        //}
 
+      
 
     }
 }

@@ -11,17 +11,9 @@ namespace ITI.Ecommerce.Services
     {
          
         Task<IEnumerable<ProductDto>> GetAll();
-        //Task<IEnumerable<CategoryDto>> GetAllCat();
+       
         Task<ProductDto> GetById(int id);
         Task<IEnumerable<ProductDto>> GetByCategoryId(int id);
-
-        //Task<IEnumerable<ProductDto>> GetByPrice(float id);
-        //Task<IEnumerable<ProductDto>> FiletrProductBYname(string name);
-        //Task<IEnumerable<ProductDto>> FiletrProductBYnameDes();
-
-        //Task<List<string>> GetCategoryBrand(int cat);
-
-        //Task<IEnumerable<ProductDto>> GetProductByCategoryAndPranch(int c ,string Brand);
 
     }
 }

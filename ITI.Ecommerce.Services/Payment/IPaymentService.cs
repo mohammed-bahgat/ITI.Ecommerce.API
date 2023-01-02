@@ -7,7 +7,7 @@ namespace ITI.Ecommerce.Services
         Task<int> add(PaymentDto paymentDto);
         Task<IEnumerable<PaymentDto>> GetAll();
         Task<PaymentDto> GetById(int id);
-        //void Delete(PaymentDto paymentDto);
+       
         void Update(PaymentDto paymentDto);
     }
 }

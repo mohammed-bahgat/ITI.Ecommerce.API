@@ -9,16 +9,16 @@ namespace ITI.Ecommerce.Presentaion.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        IPaymentService _Pay;
-       public PaymentController(IPaymentService Pay)
+        IPaymentService _paymentService;
+       public PaymentController(IPaymentService paymentService)
         {
-        _Pay=Pay;
+            _paymentService = paymentService;
 
         }
        [HttpPost("Add")]
         public async Task<int> Add(PaymentDto dto)
         {
-         var PaymentId= await _Pay.add(dto);
+         var PaymentId= await _paymentService.add(dto);
           return PaymentId;
         }
 
@@ -27,7 +27,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         {
             if(dto != null)
             {
-                _Pay.Update(dto);
+                _paymentService.Update(dto);
             }
             
             
@@ -36,7 +36,7 @@ namespace ITI.Ecommerce.Presentaion.Controllers
         public async Task<List<PaymentDto>> GetALl()
         {
          
-            var dto= await _Pay.GetAll();
+            var dto= await _paymentService.GetAll();
             List<PaymentDto> li = new List<PaymentDto>();
             foreach(var it in dto)
             {

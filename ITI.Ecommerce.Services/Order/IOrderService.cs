@@ -11,6 +11,9 @@ namespace ITI.Ecommerce.Services
          
          void Delete(int id);
 
-        //void Update(OrderDto orderDto);
+        Task Update(OrderDto orderDto);
+        public Task<int> GetProductRate(int orderId, int prdId);
+
+        public Task SetProductRate(int orderId, int prdId, int rate);
     }
 }
